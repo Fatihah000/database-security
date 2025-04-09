@@ -1,0 +1,15 @@
+<!-- update_grade.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Modifier la Note de {{ grade.course.title }}</h1>
+
+    <form method="POST">
+        <div>
+            <label for="grade">Nouvelle note:</label>
+            <input type="number" name="grade" value="{{ grade.grade }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+    </form>
+
+{% endblock %}

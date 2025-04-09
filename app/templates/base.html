@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des Cours</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Accueil</a></li>
+                <li><a href="{{ url_for('login') }}">Se connecter</a></li>
+                <li><a href="{{ url_for('register') }}">S'inscrire</a></li>
+                <li><a href="{{ url_for('logout') }}">Se déconnecter</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- Affichage des messages flash -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>Université - Gestion des Cours</p>
+    </footer>
+</body>
+</html>

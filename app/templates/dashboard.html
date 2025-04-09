@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Tableau de bord</h2>
+    <p>Bienvenue, {{ current_user.username }} !</p>
+    
+    <h3>Mes Cours :</h3>
+    <ul>
+        {% for course in current_user.courses %}
+            <li>{{ course.title }} - {{ course.description }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Mes Notes :</h3>
+    <ul>
+        {% for grade in current_user.grades %}
+            <li>{{ grade.course.title }} - {{ grade.grade }} ({{ grade.exam_type }})</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ url_for('logout') }}">Se déconnecter</a>
+{% endblock %}

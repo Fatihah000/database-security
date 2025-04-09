@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Bienvenue, Professeur {{ current_user.username }} !</h1>
+
+    <h2>Mes Cours</h2>
+    <ul>
+        {% for course in courses %}
+            <li>{{ course.title }} - {{ course.course_type }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Gestion des Notes</h2>
+    <ul>
+        {% for grade in grades %}
+            <li>
+                {{ grade.course.title }} - {{ grade.grade }} - {{ grade.exam_type }}
+                <a href="{{ url_for('update_grade', grade_id=grade.id) }}">Modifier</a>
+                <form method="POST" action="{{ url_for('delete_grade', grade_id=grade.id) }}" style="display:inline;">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+            </li>
+        {% else %}
+            <li>Aucune note à afficher.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

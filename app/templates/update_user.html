@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Modifier l'utilisateur : {{ user.username }}</h1>
+
+    <form method="POST">
+        <div class="form-group">
+            <label for="username">Nom d'utilisateur</label>
+            <input type="text" id="username" name="username" class="form-control" value="{{ user.username }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="role_id">Rôle</label>
+            <select id="role_id" name="role_id" class="form-control" required>
+                {% for role in roles %}
+                    <option value="{{ role.id }}" {% if role.id == user.role_id %}selected{% endif %}>{{ role.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+    </form>
+{% endblock %}

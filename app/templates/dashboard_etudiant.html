@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Bienvenue, Étudiant {{ current_user.username }} !</h1>
+
+    <h2>Mes Cours</h2>
+    <ul>
+        {% for course in courses %}
+            <li>{{ course.title }} - {{ course.course_type }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Mes Notes</h2>
+    <ul>
+        {% for grade in notes %}
+            <li>{{ grade.course.title }} - {{ grade.grade }} - {{ grade.exam_type }}</li>
+        {% else %}
+            <li>Aucune note disponible.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
