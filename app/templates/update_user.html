@@ -1,23 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Modifier l'utilisateur : {{ user.username }}</h1>
+<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; min-height: 80vh; padding: 2rem;">
 
-    <form method="POST">
-        <div class="form-group">
-            <label for="username">Nom d'utilisateur</label>
-            <input type="text" id="username" name="username" class="form-control" value="{{ user.username }}" required>
+    <h1 style="text-align: center; margin-bottom: 2rem;">Modifier l'utilisateur : <strong>{{ user.username }}</strong></h1>
+
+    <form method="POST" style="background-color: #f9f9f9; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; max-width: 600px; margin: 0 auto;">
+        
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+            <label for="username" style="font-size: 1.1rem; color: #333;">Nom d'utilisateur</label>
+            <input type="text" id="username" name="username" class="form-control" value="{{ user.username }}" required 
+                   style="width: 100%; padding: 0.75rem; border-radius: 4px; border: 1px solid #ccc; font-size: 1rem;">
         </div>
 
-        <div class="form-group">
-            <label for="role_id">Rôle</label>
-            <select id="role_id" name="role_id" class="form-control" required>
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+            <label for="role_id" style="font-size: 1.1rem; color: #333;">Rôle</label>
+            <select id="role_id" name="role_id" class="form-control" required 
+                    style="width: 100%; padding: 0.75rem; border-radius: 4px; border: 1px solid #ccc; font-size: 1rem;">
                 {% for role in roles %}
                     <option value="{{ role.id }}" {% if role.id == user.role_id %}selected{% endif %}>{{ role.name }}</option>
                 {% endfor %}
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+        <div style="text-align: center;">
+            <button type="submit" class="btn btn-primary" 
+                    style="padding: 0.75rem 1.5rem; background-color: #4CAF50; color: white; border-radius: 4px; border: none; font-weight: 600;">
+                Mettre à jour
+            </button>
+        </div>
+
     </form>
+</div>
 {% endblock %}

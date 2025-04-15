@@ -1,3 +1,6 @@
+CREATE database gestion_cours;
+use gestion_cours;
+
 -- Création de la table des rôles
 CREATE TABLE IF NOT EXISTS role (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -7,7 +10,7 @@ CREATE TABLE IF NOT EXISTS role (
 -- Insertion des rôles de base
 INSERT INTO role (name) VALUES ('Secrétaire');
 INSERT INTO role (name) VALUES ('Enseignant');
-INSERT INTO role (name) VALUES ('Élève');
+INSERT INTO role (name) VALUES ('Etudiant');
 
 -- Création de la table des utilisateurs
 CREATE TABLE IF NOT EXISTS user (

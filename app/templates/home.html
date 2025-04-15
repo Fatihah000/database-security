@@ -1,8 +1,28 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>Bienvenue sur la gestion des cours</h2>
-    <p>Veuillez vous connecter ou vous inscrire pour accéder à l'interface.</p>
-    <a href="{{ url_for('login') }}">Se connecter</a> | 
-    <a href="{{ url_for('register') }}">S'inscrire</a>
+<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; min-height: 80vh; text-align: center;">
+
+    <h2 style="margin-bottom: 1rem;">Bienvenue sur la gestion des cours</h2>
+    <p style="margin-bottom: 2rem; color: #555; max-width: 500px;">
+        Pour accéder à l'interface de gestion des cours, veuillez vous connecter ou vous inscrire.
+    </p>
+
+    <div style="margin-bottom: 1.5rem;">
+        <a href="{{ url_for('login') }}" 
+           style="padding: 0.75rem 1.5rem; background-color: #2f3e46; color: white; border-radius: 4px; text-decoration: none; font-weight: 600;">
+           Se connecter
+        </a>
+    </div>
+
+    <p style="margin-bottom: 1.5rem; color: #555;">Ou</p>
+
+    <div>
+        <a href="{{ url_for('register') }}" 
+           style="padding: 0.75rem 1.5rem; background-color: #4CAF50; color: white; border-radius: 4px; text-decoration: none; font-weight: 600;">
+           S'inscrire
+        </a>
+    </div>
+
+</div>
 {% endblock %}

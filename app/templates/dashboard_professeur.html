@@ -1,27 +1,59 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Bienvenue, Professeur {{ current_user.username }} !</h1>
+<div style="display: flex; justify-content: center; align-items: flex-start; flex-direction: column; min-height: 80vh; text-align: center; padding: 2rem;">
 
-    <h2>Mes Cours</h2>
-    <ul>
-        {% for course in courses %}
-            <li>{{ course.title }} - {{ course.course_type }}</li>
-        {% endfor %}
-    </ul>
+    <h1 style="margin-bottom: 1.5rem; margin-left: auto; margin-right: auto; text-align: center;">Bienvenue, Professeur {{ current_user.username }} !</h1>
 
-    <h2>Gestion des Notes</h2>
-    <ul>
-        {% for grade in grades %}
-            <li>
-                {{ grade.course.title }} - {{ grade.grade }} - {{ grade.exam_type }}
-                <a href="{{ url_for('update_grade', grade_id=grade.id) }}">Modifier</a>
-                <form method="POST" action="{{ url_for('delete_grade', grade_id=grade.id) }}" style="display:inline;">
-                    <button type="submit" class="btn btn-danger">Supprimer</button>
-                </form>
-            </li>
+    <p style="margin-bottom: 2rem; color: #555; max-width: 600px; margin-left: auto; margin-right: auto; text-align: center;">
+        Vous êtes connecté à votre espace professeur. Vous pouvez gérer vos cours et les notes des étudiants ici.
+        <br>Si vous souhaitez modifier ou supprimer une note, utilisez les options à côté de celle-ci.
+    </p>
+
+    <div style="max-width: 800px; width: 100%; margin: 0 auto;">
+        <h2 style="margin-bottom: 1rem;">Mes Cours</h2>
+        {% if courses %}
+            <ul style="list-style: none; padding: 0;">
+                {% for course in courses %}
+                    <li style="background-color: #f4f6f9; margin-bottom: 1rem; padding: 1rem; border-radius: 4px; font-size: 1.1rem;">
+                        <strong>{{ course.title }}</strong> - {{ course.course_type }}
+                    </li>
+                {% endfor %}
+            </ul>
         {% else %}
-            <li>Aucune note à afficher.</li>
-        {% endfor %}
-    </ul>
+            <p>Aucun cours disponible pour le moment.</p>
+        {% endif %}
+    </div>
+
+    <div style="max-width: 800px; width: 100%; margin: 2rem auto;">
+        <h2 style="margin-bottom: 1rem;">Gestion des Notes</h2>
+        {% if grades %}
+            <ul style="list-style: none; padding: 0;">
+                {% for grade in grades %}
+                    <li style="background-color: #f4f6f9; margin-bottom: 1rem; padding: 1rem; border-radius: 4px; font-size: 1.1rem;">
+                        <strong>{{ grade.course.title }}</strong> - {{ grade.user.username }} - {{ grade.grade }} - {{ grade.exam_type }}
+                        <div style="margin-top: 1rem;">
+                            <a href="{{ url_for('update_grade', grade_id=grade.id) }}"
+                               style="padding: 0.5rem 1rem; background-color: #ff9800; color: white; text-decoration: none; border-radius: 4px; font-weight: 600; margin-right: 1rem;">
+                               Modifier
+                            </a>
+                            <form method="POST" action="{{ url_for('delete_grade', grade_id=grade.id) }}" style="display:inline;">
+                                <button type="submit" style="padding: 0.5rem 1rem; background-color: #e57373; color: white; border: none; border-radius: 4px; font-weight: 600;">
+                                    Supprimer
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+            <a href="{{ url_for('add_grade') }}" style="display: inline-block; margin-bottom: 1rem; background-color: #4CAF50; color: white; padding: 0.6rem 1.2rem; border-radius: 4px; text-decoration: none; font-weight: 600;">
+                ➕ Ajouter une note
+            </a>
+            
+        {% else %}
+            <p>Aucune note à afficher.</p>
+        {% endif %}
+    </div>
+
+</div>
 {% endblock %}

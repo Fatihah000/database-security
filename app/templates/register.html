@@ -1,34 +1,72 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>S'inscrire</h2>
+<div style="display: flex; justify-content: center; align-items: center; flex-direction: column; min-height: 80vh; text-align: center;">
     
-    <!-- Affichage des messages flash -->
+    <h2 style="margin-bottom: 1rem;">Créer un compte</h2>
+    <p style="margin-bottom: 2rem; color: #555; max-width: 500px;">
+        Remplissez les informations ci-dessous pour créer un compte sur la plateforme de gestion des cours. Choisissez votre rôle (étudiant ou enseignant).
+    </p>
+
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-            <ul>
+            <ul style="margin-bottom: 1rem; padding: 0;">
                 {% for category, message in messages %}
-                    <li class="alert alert-{{ category }}">{{ message }}</li>
+                    <li style="
+                        background-color: {% if category == 'error' %}#ffebee{% else %}#e8f5e9{% endif %};
+                        color: {% if category == 'error' %}#c62828{% else %}#2e7d32{% endif %};
+                        padding: 1rem;
+                        margin-bottom: 1rem;
+                        border-left: 5px solid {% if category == 'error' %}#c62828{% else %}#2e7d32{% endif %};
+                        border-radius: 4px;
+                        list-style: none;
+                        max-width: 400px;
+                        margin-left: auto;
+                        margin-right: auto;
+                    ">{{ message }}</li>
                 {% endfor %}
             </ul>
         {% endif %}
     {% endwith %}
 
-    <form method="POST" action="{{ url_for('register') }}">
+    <form method="POST" action="{{ url_for('register') }}"
+          style="width: 100%; max-width: 500px; background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); text-align: left;">
         {{ form.hidden_tag() }}
-        <div class="form-group">
-            {{ form.username.label }} {{ form.username() }}
+
+        <div style="margin-bottom: 1.5rem;">
+            <label for="{{ form.username.id }}" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">
+                {{ form.username.label }}
+            </label>
+            {{ form.username(class_="form-input", style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px;") }}
         </div>
-        <div class="form-group">
-            {{ form.password.label }} {{ form.password() }}
+
+        <div style="margin-bottom: 1.5rem;">
+            <label for="{{ form.password.id }}" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">
+                {{ form.password.label }}
+            </label>
+            {{ form.password(class_="form-input", style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px;") }}
         </div>
-        <div class="form-group">
-            {{ form.confirm_password.label }} {{ form.confirm_password() }}
+
+        <div style="margin-bottom: 1.5rem;">
+            <label for="{{ form.confirm_password.id }}" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">
+                {{ form.confirm_password.label }}
+            </label>
+            {{ form.confirm_password(class_="form-input", style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px;") }}
         </div>
-        <div class="form-group">
-            {{ form.role.label }} {{ form.role() }}  <!-- Afficher le sélecteur de rôle -->
+
+        <div style="margin-bottom: 2rem;">
+            <label for="{{ form.role.id }}" style="display: block; font-weight: 600; margin-bottom: 0.5rem;">
+                {{ form.role.label }}
+            </label>
+            {{ form.role(class_="form-select", style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px; background-color: white;") }}
         </div>
-        <button type="submit" class="btn btn-primary">S'inscrire</button>
+
+        <div style="text-align: center;">
+            <button type="submit"
+                style="padding: 0.75rem 1.5rem; background-color: #2f3e46; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: 600;">
+                S'inscrire
+            </button>
+        </div>
     </form>
-    
+</div>
 {% endblock %}

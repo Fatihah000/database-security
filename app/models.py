@@ -59,6 +59,8 @@ class Grade(db.Model):
     grade = db.Column(db.Float, nullable=False)
     exam_type = db.Column(db.String(50), nullable=False)  # Examen final, Examen partiel
     description = db.Column(db.String(500))  # Commentaire du professeur
+    user = db.relationship('User', backref='grades')  # Relation vers User
+    course = db.relationship('Course', backref='grades')  # Relation vers Course
 
     # Relation avec User et Course
     user = db.relationship('User', backref=db.backref('grades', lazy=True))

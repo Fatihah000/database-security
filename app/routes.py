@@ -74,27 +74,6 @@ def dashboard():
         flash("Rôle non reconnu", "danger")
         return redirect(url_for('home'))
 
-# Mise à jour d'une note (pour les professeurs)
-# Mise à jour d'une note (pour les professeurs)
-@app.route('/update_grade/<int:grade_id>', methods=['GET', 'POST'])
-@login_required
-def update_grade(grade_id):
-    grade = Grade.query.get_or_404(grade_id)
-
-    # Vérifie si l'utilisateur est un enseignant
-    if current_user.role.name != 'Enseignant':
-        flash("Accès non autorisé", "danger")
-        return redirect(url_for('dashboard'))
-
-    if request.method == 'POST':
-        # Récupère la note envoyée via le formulaire
-        grade.grade = request.form['grade']
-        db.session.commit()
-        flash("Note mise à jour avec succès", "success")
-        return redirect(url_for('dashboard'))  # Redirige vers la route générique du dashboard
-
-    # Si la méthode est GET, on affiche le formulaire avec la note actuelle
-    return render_template('update_grade.html', grade=grade)
 
 
 
@@ -157,6 +136,52 @@ def delete_course(course_id):
     return redirect(url_for('dashboard'))  # Redirige vers la route générique du dashboard
 
 
+
+# Ajouter une inscription
+@app.route('/add_enrollment', methods=['GET', 'POST'])
+@login_required
+def add_enrollment():
+    if current_user.role.name != 'Secrétaire':
+        flash("Accès non autorisé", "danger")
+        return redirect(url_for('dashboard'))
+
+    if request.method == 'POST':
+        user_id = request.form['user_id']
+        course_id = request.form['course_id']
+
+        # Vérifie si l'inscription existe déjà
+        existing_enrollment = Enrollment.query.filter_by(user_id=user_id, course_id=course_id).first()
+        if existing_enrollment:
+            flash("L'étudiant est déjà inscrit à ce cours", "danger")
+            return redirect(url_for('dashboard'))  # Redirige vers le dashboard
+
+        # Créer une nouvelle inscription
+        new_enrollment = Enrollment(user_id=user_id, course_id=course_id)
+        db.session.add(new_enrollment)
+        db.session.commit()
+        flash("Inscription ajoutée avec succès", "success")
+        return redirect(url_for('dashboard'))  # Redirige vers la route générique du dashboard
+
+    return redirect(url_for('dashboard'))  # Si ce n'est pas une requête POST, on redirige
+
+
+# Supprimer une inscription
+@app.route('/delete_enrollment/<int:enrollment_id>', methods=['POST'])
+@login_required
+def delete_enrollment(enrollment_id):
+    if current_user.role.name != 'Secrétaire':
+        flash("Accès non autorisé", "danger")
+        return redirect(url_for('dashboard'))
+
+    enrollment = Enrollment.query.get_or_404(enrollment_id)
+    db.session.delete(enrollment)
+    db.session.commit()
+    flash("Inscription supprimée avec succès", "success")
+    return redirect(url_for('dashboard'))  # Redirige vers la route générique du dashboard
+
+
+
+
 @app.route('/delete_grade/<int:grade_id>', methods=['POST'])
 @login_required
 def delete_grade(grade_id):
@@ -170,6 +195,52 @@ def delete_grade(grade_id):
     db.session.commit()
     flash("Note supprimée avec succès", "success")
     return redirect(url_for('dashboard'))  # Redirige vers la route générique du dashboard
+
+# Mise à jour d'une note (pour les professeurs)
+# Mise à jour d'une note (pour les professeurs)
+@app.route('/update_grade/<int:grade_id>', methods=['GET', 'POST'])
+@login_required
+def update_grade(grade_id):
+    grade = Grade.query.get_or_404(grade_id)
+
+    # Vérifie si l'utilisateur est un enseignant
+    if current_user.role.name != 'Enseignant':
+        flash("Accès non autorisé", "danger")
+        return redirect(url_for('dashboard'))
+
+    if request.method == 'POST':
+        # Récupère la note envoyée via le formulaire
+        grade.grade = request.form['grade']
+        db.session.commit()
+        flash("Note mise à jour avec succès", "success")
+        return redirect(url_for('dashboard'))  # Redirige vers la route générique du dashboard
+
+    # Si la méthode est GET, on affiche le formulaire avec la note actuelle
+    return render_template('update_grade.html', grade=grade)
+
+
+@app.route('/add_grade', methods=['GET', 'POST'])
+@login_required
+def add_grade():
+
+
+    users = User.query.all()
+    courses = Course.query.all()
+
+    if request.method == 'POST':
+        user_id = request.form['user_id']
+        course_id = request.form['course_id']
+        grade_value = float(request.form['grade'])
+        exam_type = request.form['exam_type']
+
+        new_grade = Grade(user_id=user_id, course_id=course_id, grade=grade_value, exam_type=exam_type)
+        db.session.add(new_grade)
+        db.session.commit()
+        flash("Note ajoutée avec succès", "success")
+        return redirect(url_for('dashboard'))
+
+    return render_template('add_grade.html', users=users, courses=courses)
+
 
 
 # Mise à jour d'un utilisateur

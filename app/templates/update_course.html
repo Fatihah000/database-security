@@ -1,34 +1,47 @@
-<!-- update_course.html -->
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Modifier le cours : {{ course.title }}</h1>
+<div style="display: flex; justify-content: center; align-items: flex-start; flex-direction: column; min-height: 80vh; padding: 2rem;">
 
-    <form method="POST">
-        <div class="form-group">
-            <label for="title">Titre</label>
-            <input type="text" name="title" id="title" value="{{ course.title }}" class="form-control" required>
+    <h1 style="text-align: center; margin-bottom: 2rem;">Modifier le cours : <strong>{{ course.title }}</strong></h1>
+
+    <form method="POST" style="background-color: #f9f9f9; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; max-width: 600px; margin: 0 auto;">
+
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+            <label for="title" style="font-size: 1.1rem; color: #333;">Titre du cours</label>
+            <input type="text" name="title" id="title" value="{{ course.title }}" class="form-control" required 
+                   style="width: 100%; padding: 0.75rem; border-radius: 4px; border: 1px solid #ccc; font-size: 1rem;">
         </div>
 
-        <div class="form-group">
-            <label for="description">Description</label>
-            <textarea name="description" id="description" class="form-control" required>{{ course.description }}</textarea>
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+            <label for="description" style="font-size: 1.1rem; color: #333;">Description</label>
+            <textarea name="description" id="description" class="form-control" required 
+                      style="width: 100%; padding: 0.75rem; border-radius: 4px; border: 1px solid #ccc; font-size: 1rem;">{{ course.description }}</textarea>
         </div>
 
-        <div class="form-group">
-            <label for="hours">Nombre d'heures</label>
-            <input type="number" name="hours" id="hours" value="{{ course.hours }}" class="form-control" required>
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+            <label for="hours" style="font-size: 1.1rem; color: #333;">Nombre d'heures</label>
+            <input type="number" name="hours" id="hours" value="{{ course.hours }}" class="form-control" required 
+                   style="width: 100%; padding: 0.75rem; border-radius: 4px; border: 1px solid #ccc; font-size: 1rem;">
         </div>
 
-        <div class="form-group">
-            <label for="course_type">Type de cours</label>
-            <select name="course_type" id="course_type" class="form-control" required>
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+            <label for="course_type" style="font-size: 1.1rem; color: #333;">Type de cours</label>
+            <select name="course_type" id="course_type" class="form-control" required 
+                    style="width: 100%; padding: 0.75rem; border-radius: 4px; border: 1px solid #ccc; font-size: 1rem;">
                 <option value="CM" {% if course.course_type == 'CM' %}selected{% endif %}>CM</option>
                 <option value="TD" {% if course.course_type == 'TD' %}selected{% endif %}>TD</option>
                 <option value="TP" {% if course.course_type == 'TP' %}selected{% endif %}>TP</option>
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+        <div style="text-align: center;">
+            <button type="submit" class="btn btn-primary" 
+                    style="padding: 0.75rem 1.5rem; background-color: #4CAF50; color: white; border-radius: 4px; border: none; font-weight: 600;">
+                Mettre à jour
+            </button>
+        </div>
+
     </form>
+</div>
 {% endblock %}
